@@ -4,17 +4,23 @@ from requests import Request
 loripsum = requests.get('https://loripsum.net/api/plaintext/10/long')
 print(loripsum.text)
 
+print("FILTERED TEXT")
 
 AP = loripsum.text.count(".")
 AP = AP+loripsum.text.count("?")
 AP = AP+loripsum.text.count("!")
 WordList = loripsum.text.split()
+symbols_to_remove = ",@#!.?;:-"
+UpdatedWordList = [item.translate(str.maketrans('', '', symbols_to_remove)) for item in WordList]
 Longwords = 0
-Words = len(WordList)
+Words = len(UpdatedWordList)
+print(UpdatedWordList)
 
-for i in WordList:
+for i in UpdatedWordList:
     if len(i) > 6:
         Longwords += 1
+
+
 
 print("Sætninger: " +str(AP), "Antal ord: " + str(Words), "Lange ord: " + str(Longwords))
 
@@ -39,3 +45,4 @@ def difficulty():
     return(Difficulty)
 
 print("Sværhedsgrad: " + str(difficulty()))
+
